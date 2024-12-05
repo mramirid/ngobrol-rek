@@ -1,38 +1,36 @@
-import { auth } from "@/constants/firebase";
-import { signInAnonymously, User } from "firebase/auth";
-import { useState } from "react";
+import { signInAnonymously } from "firebase/auth";
+import { ReactNode, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Avatar, Button, Card, Modal, Portal } from "react-native-paper";
 
-const CardTitleIcon = (props: any) => (
-  <Avatar.Icon {...props} icon="login-variant" />
-);
+import { auth } from "@/constants/firebase";
+import LoginContext from "./LoginContext";
 
-export default function LoginModal() {
+export default function LoginProvider(props: { children: ReactNode }) {
   const [visible, setVisible] = useState(false);
 
-  const showModal = () => setVisible(true);
-  const hideModal = () => setVisible(false);
+  const showModal = () => {
+    setVisible(true);
+  };
+
+  const hideModal = () => {
+    setVisible(false);
+  };
 
   const login = async () => {
-    let user: User;
-
     try {
-      ({ user } = await signInAnonymously(auth));
+      await signInAnonymously(auth);
+      console.log("🚀 ~ login ~ Signed in");
     } catch (error) {
-      console.log("🚀 ~ login ~ error:", error);
-      return;
+      alert("Maaf, gagal menggabungkan anda ke dalam obrolan.");
     }
-
-    console.log("🚀 ~ login ~ user:", user.uid);
   };
 
   return (
-    <>
+    <LoginContext.Provider value={{ prompt: showModal }}>
       <Portal>
         <Modal
           visible={visible}
-          onDismiss={hideModal}
           contentContainerStyle={styles.modalContentContainer}
         >
           <Card>
@@ -48,10 +46,8 @@ export default function LoginModal() {
           </Card>
         </Modal>
       </Portal>
-      <Button style={{ marginTop: 30 }} onPress={showModal}>
-        Show
-      </Button>
-    </>
+      {props.children}
+    </LoginContext.Provider>
   );
 }
 
@@ -62,3 +58,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 });
+
+function CardTitleIcon(props: any) {
+  return <Avatar.Icon {...props} icon="login-variant" />;
+}
