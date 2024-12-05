@@ -1,12 +1,13 @@
-import { signInAnonymously } from "firebase/auth";
-import { ReactNode, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Avatar, Button, Card, Modal, Portal } from "react-native-paper";
 
-import { auth } from "@/constants/firebase";
-import LoginContext from "./LoginContext";
+import AuthContext from "../auth/AuthContext";
+import LoginPromptContext from "./LoginPromptContext";
 
-export default function LoginProvider(props: { children: ReactNode }) {
+export default function LoginPromptProvider(props: { children: ReactNode }) {
+  const auth = useContext(AuthContext);
+
   const [visible, setVisible] = useState(false);
 
   const showModal = () => {
@@ -19,18 +20,20 @@ export default function LoginProvider(props: { children: ReactNode }) {
 
   const login = async () => {
     try {
-      await signInAnonymously(auth);
-      console.log("🚀 ~ login ~ Signed in");
+      await auth.login!();
     } catch (error) {
       alert("Maaf, gagal menggabungkan anda ke dalam obrolan.");
     }
+
+    hideModal();
   };
 
   return (
-    <LoginContext.Provider value={{ prompt: showModal }}>
+    <LoginPromptContext.Provider value={{ show: showModal }}>
       <Portal>
         <Modal
           visible={visible}
+          dismissable={false}
           contentContainerStyle={styles.modalContentContainer}
         >
           <Card>
@@ -47,7 +50,7 @@ export default function LoginProvider(props: { children: ReactNode }) {
         </Modal>
       </Portal>
       {props.children}
-    </LoginContext.Provider>
+    </LoginPromptContext.Provider>
   );
 }
 

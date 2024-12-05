@@ -1,16 +1,16 @@
 import { StyleSheet, Text, View } from "react-native";
 
 import AppBar from "@/components/AppBar";
-import LoginProvider from "@/components/login/LoginProvider";
+import LoginPromptProvider from "@/components/login-prompt/LoginPromptProvider";
 
 export default function Index() {
   return (
-    <LoginProvider>
+    <LoginPromptProvider>
       <AppBar />
       <View style={styles.screen}>
         <Text>Edit app/index.tsx to edit this screen.</Text>
       </View>
-    </LoginProvider>
+    </LoginPromptProvider>
   );
 }
 
