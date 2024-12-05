@@ -1,0 +1,48 @@
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { useSyncExternalStore } from "react";
+import { GiftedChat, IMessage } from "react-native-gifted-chat";
+
+import { db } from "@/constants/firebase";
+
+let messages: IMessage[] = [];
+
+function subscribeMessages(notifyNewMessages: () => void) {
+  const unsubscribe = onSnapshot(
+    query(collection(db, "messages"), orderBy("createdAt", "desc")),
+    (snapshot) => {
+      const incomingMessags = snapshot
+        .docChanges()
+        .map<IMessage>((docChange) => {
+          const docId = docChange.doc.id;
+          const docData = docChange.doc.data();
+          return {
+            _id: docId,
+            text: docData.text,
+            createdAt: docData.createdAt.toDate(),
+            user: {
+              _id: docData.user._id,
+              name: docData.user._id,
+            },
+          };
+        });
+      messages = GiftedChat.append(messages, incomingMessags);
+
+      notifyNewMessages();
+    }
+  );
+
+  return () => {
+    messages = [];
+
+    unsubscribe();
+  };
+}
+
+function getMessages() {
+  return messages;
+}
+
+export default function useMessages() {
+  const messages = useSyncExternalStore(subscribeMessages, getMessages);
+  return messages;
+}
