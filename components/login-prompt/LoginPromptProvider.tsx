@@ -9,6 +9,7 @@ export default function LoginPromptProvider(props: { children: ReactNode }) {
   const auth = useContext(AuthContext);
 
   const [visible, setVisible] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const showModal = () => {
     setVisible(true);
@@ -19,12 +20,15 @@ export default function LoginPromptProvider(props: { children: ReactNode }) {
   };
 
   const login = async () => {
+    setIsLoggingIn(true);
+
     try {
       await auth.login!();
     } catch (error) {
       alert("Maaf, gagal menggabungkan anda ke dalam obrolan.");
     }
 
+    setIsLoggingIn(false);
     hideModal();
   };
 
@@ -43,8 +47,12 @@ export default function LoginPromptProvider(props: { children: ReactNode }) {
               left={CardTitleIcon}
             />
             <Card.Actions>
-              <Button onPress={hideModal}>Nanti</Button>
-              <Button onPress={login}>Gabung</Button>
+              <Button onPress={hideModal} disabled={isLoggingIn}>
+                Nanti
+              </Button>
+              <Button onPress={login} loading={isLoggingIn}>
+                Gabung
+              </Button>
             </Card.Actions>
           </Card>
         </Modal>
