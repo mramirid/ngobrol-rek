@@ -6,6 +6,7 @@ import LoginPromptContext from "./login-prompt/LoginPromptContext";
 
 export default function AppBar() {
   const auth = useContext(AuthContext);
+  const userUid = auth.user?.uid.toUpperCase();
 
   const loginPrompt = useContext(LoginPromptContext);
 
@@ -14,11 +15,8 @@ export default function AppBar() {
       <Appbar.Content title="Obrolan" />
       {auth.user ? (
         <>
-          <Tooltip title={auth.user!.uid}>
-            <Avatar.Text
-              size={24}
-              label={auth.user!.uid.substring(0, 2).toUpperCase()}
-            />
+          <Tooltip title={userUid!}>
+            <Avatar.Text size={24} label={userUid!.substring(0, 2)} />
           </Tooltip>
           <Appbar.Action icon="logout" onPress={auth.logout} />
         </>
