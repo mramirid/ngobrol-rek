@@ -1,6 +1,7 @@
+//@ts-ignore
+import { getReactNativePersistence } from "@firebase/auth/dist/rn/index.js";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 import {
-  getReactNativePersistence,
   initializeAuth,
   onAuthStateChanged,
   signInAnonymously,
