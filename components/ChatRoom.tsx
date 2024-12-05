@@ -1,10 +1,15 @@
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
 
 import { db } from "@/constants/firebase";
 import useUser from "@/hooks/use-user";
-import UserAvatar from "./UserAvatar";
 
 export default function ChatRoom() {
   const user = useUser();
@@ -12,17 +17,31 @@ export default function ChatRoom() {
   const [messages, setMessages] = useState<IMessage[]>([]);
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: "Hello developer",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "React Native",
-        },
-      },
-    ]);
+    const unsubscribe = onSnapshot(
+      query(collection(db, "messages"), orderBy("createdAt", "desc")),
+      (snapshot) => {
+        const incomingMessags = snapshot
+          .docChanges()
+          .map<IMessage>((docChange) => {
+            const docId = docChange.doc.id;
+            const docData = docChange.doc.data();
+            return {
+              _id: docId,
+              text: docData.text,
+              createdAt: docData.createdAt.toDate(),
+              user: {
+                _id: docData.user._id,
+                name: docData.user._id,
+              },
+            };
+          });
+        setMessages((previousMessages) =>
+          GiftedChat.append(previousMessages, incomingMessags)
+        );
+      }
+    );
+
+    return unsubscribe;
   }, []);
 
   const onSend = async ([message]: IMessage[]) => {
@@ -42,9 +61,6 @@ export default function ChatRoom() {
       messages={messages}
       onSend={onSend}
       user={user ? { _id: user.uid, name: user.uid } : undefined}
-      showUserAvatar
-      renderUsernameOnMessage
-      renderAvatar={user ? () => <UserAvatar userUid={user.uid} /> : undefined}
     />
   );
 }
