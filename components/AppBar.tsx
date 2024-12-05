@@ -3,6 +3,7 @@ import { Appbar, Avatar, Tooltip } from "react-native-paper";
 
 import AuthContext from "./auth/AuthContext";
 import LoginPromptContext from "./login-prompt/LoginPromptContext";
+import UserAvatar from "./UserAvatar";
 
 export default function AppBar() {
   const auth = useContext(AuthContext);
@@ -16,7 +17,7 @@ export default function AppBar() {
       {auth.user ? (
         <>
           <Tooltip title={userUid!}>
-            <Avatar.Text size={24} label={userUid!.substring(0, 2)} />
+            <UserAvatar userUid={userUid!} />
           </Tooltip>
           <Appbar.Action icon="logout" onPress={auth.logout} />
         </>

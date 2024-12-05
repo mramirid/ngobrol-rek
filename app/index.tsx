@@ -1,17 +1,16 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 
 import AppBar from "@/components/AppBar";
 import AuthProvider from "@/components/auth/AuthProvider";
 import LoginPromptProvider from "@/components/login-prompt/LoginPromptProvider";
+import ChatRoom from "@/components/ChatRoom";
 
 export default function Index() {
   return (
     <AuthProvider>
       <LoginPromptProvider>
         <AppBar />
-        <View style={styles.screen}>
-          <Text>Edit app/index.tsx to edit this screen.</Text>
-        </View>
+        <ChatRoom />
       </LoginPromptProvider>
     </AuthProvider>
   );
