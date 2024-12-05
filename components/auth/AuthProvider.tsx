@@ -1,30 +1,12 @@
-//@ts-ignore
-import { getReactNativePersistence } from "@firebase/auth/dist/rn/index.js";
-import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  initializeAuth,
-  onAuthStateChanged,
-  signInAnonymously,
-  signOut,
-  User,
-} from "firebase/auth";
-import { ReactNode, useLayoutEffect, useState } from "react";
+import { signInAnonymously, signOut } from "firebase/auth";
+import { ReactNode } from "react";
 
-import firebase from "@/constants/firebase";
+import { auth } from "@/constants/firebase";
+import useUser from "@/hooks/use-user";
 import AuthContext from "./AuthContext";
 
-const auth = initializeAuth(firebase, {
-  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
-});
-
 export default function AuthProvider(props: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-
-  useLayoutEffect(() => {
-    return onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
-  }, []);
+  const user = useUser();
 
   const login = async () => {
     await signInAnonymously(auth);
