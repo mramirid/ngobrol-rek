@@ -1,13 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
 
+import AppBar from "@/components/AppBar";
 import LoginModal from "@/components/LoginModal";
 
 export default function Index() {
   return (
-    <View style={styles.screen}>
-      <LoginModal />
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
+    <>
+      <AppBar />
+      <View style={styles.screen}>
+        <LoginModal />
+        <Text>Edit app/index.tsx to edit this screen.</Text>
+      </View>
+    </>
   );
 }
 

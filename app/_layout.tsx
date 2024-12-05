@@ -5,10 +5,7 @@ export default function RootLayout() {
   return (
     <PaperProvider>
       <Stack>
-        <Stack.Screen
-          name="index"
-          options={{ /* headerShown: false ,*/ title: "Obrolan" }}
-        />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
       </Stack>
     </PaperProvider>
   );
