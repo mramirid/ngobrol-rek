@@ -1,5 +1,8 @@
 import { addDoc, collection } from "firebase/firestore";
+import { useContext } from "react";
 import {
+  Avatar,
+  AvatarProps,
   GiftedChat,
   IMessage,
   InputToolbar,
@@ -11,11 +14,12 @@ import { useTheme } from "react-native-paper";
 import { db } from "@/constants/firebase";
 import useAuth from "@/hooks/use-auth";
 import useMessages from "@/hooks/use-messages";
+import DialogContext from "./dialog/DialogContext";
 
 export default function ChatRoom() {
   const { user: currentUser } = useAuth();
 
-  const messages = useMessages();
+  const dialog = useContext(DialogContext);
 
   const onSend = async ([message]: IMessage[]) => {
     try {
@@ -25,9 +29,11 @@ export default function ChatRoom() {
         user: { _id: message.user._id },
       });
     } catch (_) {
-      alert("Gagal mengirim pesan anda");
+      dialog?.show("Error", "Gagal mengirim pesan anda");
     }
   };
+
+  const messages = useMessages();
 
   const theme = useTheme();
 
@@ -55,6 +61,17 @@ export default function ChatRoom() {
           backgroundColor: theme.colors.background,
         },
       }}
+      renderAvatar={OtherUserAvatar}
     />
   );
+}
+
+function OtherUserAvatar(props: AvatarProps<IMessage>) {
+  const dialog = useContext(DialogContext);
+
+  const onPress = () => {
+    dialog?.show("Info Pengguna", "ID: " + props.currentMessage.user._id);
+  };
+
+  return <Avatar {...props} onPressAvatar={onPress} />;
 }

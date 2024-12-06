@@ -8,8 +8,8 @@ export default function Index() {
     <KeyboardAvoider>
       <LoginPromptProvider>
         <AppBar />
-        <ChatRoom />
       </LoginPromptProvider>
+      <ChatRoom />
     </KeyboardAvoider>
   );
 }
