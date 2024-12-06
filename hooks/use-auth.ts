@@ -1,4 +1,9 @@
-import { onAuthStateChanged, User } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  signInAnonymously,
+  signOut,
+  User,
+} from "firebase/auth";
 import { useSyncExternalStore } from "react";
 
 import { auth } from "@/constants/firebase";
@@ -23,7 +28,16 @@ function getCurrentUser() {
   return user;
 }
 
-export default function useUser() {
+export default function useAuth() {
   const user = useSyncExternalStore(subscribeAuthState, getCurrentUser);
-  return user;
+
+  const login = async () => {
+    await signInAnonymously(auth);
+  };
+
+  const logout = async () => {
+    await signOut(auth);
+  };
+
+  return { user, login, logout };
 }

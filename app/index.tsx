@@ -1,18 +1,15 @@
 import { StyleSheet } from "react-native";
 
 import AppBar from "@/components/AppBar";
-import AuthProvider from "@/components/auth/AuthProvider";
-import LoginPromptProvider from "@/components/login-prompt/LoginPromptProvider";
 import ChatRoom from "@/components/ChatRoom";
+import LoginPromptProvider from "@/components/login-prompt/LoginPromptProvider";
 
 export default function Index() {
   return (
-    <AuthProvider>
-      <LoginPromptProvider>
-        <AppBar />
-        <ChatRoom />
-      </LoginPromptProvider>
-    </AuthProvider>
+    <LoginPromptProvider>
+      <AppBar />
+      <ChatRoom />
+    </LoginPromptProvider>
   );
 }
 

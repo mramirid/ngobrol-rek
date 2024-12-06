@@ -1,12 +1,12 @@
-import { ReactNode, useContext, useState } from "react";
+import { ReactNode, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Avatar, Button, Card, Modal, Portal } from "react-native-paper";
 
-import AuthContext from "../auth/AuthContext";
+import useAuth from "@/hooks/use-auth";
 import LoginPromptContext from "./LoginPromptContext";
 
 export default function LoginPromptProvider(props: { children: ReactNode }) {
-  const auth = useContext(AuthContext);
+  const auth = useAuth();
 
   const [visible, setVisible] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -23,7 +23,7 @@ export default function LoginPromptProvider(props: { children: ReactNode }) {
     setIsLoggingIn(true);
 
     try {
-      await auth.login!();
+      await auth.login();
     } catch (error) {
       alert("Maaf, gagal menggabungkan anda ke dalam obrolan.");
     }
