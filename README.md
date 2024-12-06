@@ -1,13 +1,13 @@
-# Ngobrol Rek 👋
+# Ngobrol Rek
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A chatting app that runs on browser and Android.
 
 ## Get started
 
 1. Install dependencies
 
    ```bash
-   npm install
+   npm ci
    ```
 
 2. Start the app
