@@ -1,5 +1,11 @@
 import { addDoc, collection } from "firebase/firestore";
-import { GiftedChat, IMessage } from "react-native-gifted-chat";
+import {
+  GiftedChat,
+  IMessage,
+  InputToolbar,
+  InputToolbarProps,
+  User,
+} from "react-native-gifted-chat";
 
 import { db } from "@/constants/firebase";
 import useAuth from "@/hooks/use-auth";
@@ -18,15 +24,25 @@ export default function ChatRoom() {
     });
   };
 
+  const sender: User | undefined = currentUser
+    ? { _id: currentUser.uid, name: currentUser.uid }
+    : undefined;
+
+  const renderInputToolbar = (props: InputToolbarProps<IMessage>) => {
+    if (currentUser === null) {
+      return null;
+    }
+    return <InputToolbar {...props} />;
+  };
+
   return (
     <GiftedChat
+      locale="id"
       messages={messages}
       onSend={onSend}
-      user={
-        currentUser
-          ? { _id: currentUser.uid, name: currentUser.uid }
-          : undefined
-      }
+      user={sender}
+      renderInputToolbar={renderInputToolbar}
+      placeholder="Tulis pesan anda ..."
     />
   );
 }

@@ -26,7 +26,6 @@ function subscribeMessages(notifyNewMessages: () => void) {
           };
         });
       messages = GiftedChat.append(messages, incomingMessags);
-
       notifyNewMessages();
     }
   );
