@@ -35,4 +35,8 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+# Expo template
 app-example
+
+# Firebase
+.firebase
