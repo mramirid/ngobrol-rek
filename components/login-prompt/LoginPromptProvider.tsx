@@ -1,10 +1,10 @@
 import { ReactNode, useContext, useState } from "react";
 import { StyleSheet } from "react-native";
-import { Avatar, Button, Card, Modal, Portal } from "react-native-paper";
+import { Avatar, Button, Dialog, Portal, Text } from "react-native-paper";
 
 import useAuth from "@/hooks/use-auth";
-import LoginPromptContext from "./LoginPromptContext";
 import DialogContext from "../dialog/DialogContext";
+import LoginPromptContext from "./LoginPromptContext";
 
 export default function LoginPromptProvider(props: { children: ReactNode }) {
   const auth = useAuth();
@@ -12,11 +12,11 @@ export default function LoginPromptProvider(props: { children: ReactNode }) {
   const [visible, setVisible] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  const showModal = () => {
+  const showDialog = () => {
     setVisible(true);
   };
 
-  const hideModal = () => {
+  const hideDialog = () => {
     setVisible(false);
   };
 
@@ -32,33 +32,29 @@ export default function LoginPromptProvider(props: { children: ReactNode }) {
     }
 
     setIsLoggingIn(false);
-    hideModal();
+    hideDialog();
   };
 
   return (
-    <LoginPromptContext.Provider value={{ show: showModal }}>
+    <LoginPromptContext.Provider value={{ show: showDialog }}>
       <Portal>
-        <Modal
-          visible={visible}
-          dismissable={false}
-          contentContainerStyle={styles.modalContentContainer}
-        >
-          <Card>
-            <Card.Title
-              title="Gabung Obrolan"
-              subtitle="Gabung dan mulai mengobrol!"
-              left={CardTitleIcon}
-            />
-            <Card.Actions>
-              <Button onPress={hideModal} disabled={isLoggingIn}>
-                Nanti
-              </Button>
-              <Button onPress={login} loading={isLoggingIn}>
-                Gabung
-              </Button>
-            </Card.Actions>
-          </Card>
-        </Modal>
+        <Dialog visible={visible} onDismiss={hideDialog}>
+          <Dialog.Icon icon="login" />
+          <Dialog.Title style={styles.title}>Gabung Obrolan</Dialog.Title>
+          <Dialog.Content>
+            <Text variant="bodyMedium">
+              Gabung dan mulai mengobrol dengan yang lain 🙂
+            </Text>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={hideDialog} disabled={isLoggingIn}>
+              Nanti
+            </Button>
+            <Button onPress={login} loading={isLoggingIn} mode="contained">
+              Gabung
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
       </Portal>
       {props.children}
     </LoginPromptContext.Provider>
@@ -66,10 +62,8 @@ export default function LoginPromptProvider(props: { children: ReactNode }) {
 }
 
 const styles = StyleSheet.create({
-  modalContentContainer: {
-    backgroundColor: "white",
-    marginHorizontal: "10%",
-    borderRadius: 10,
+  title: {
+    textAlign: "center",
   },
 });
 
