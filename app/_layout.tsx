@@ -3,7 +3,7 @@ import { PaperProvider } from "react-native-paper";
 
 export default function RootLayout() {
   return (
-    <PaperProvider>
+    <PaperProvider theme={{ dark: false }}>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
       </Stack>

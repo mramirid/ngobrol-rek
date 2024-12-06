@@ -12,7 +12,7 @@ export default function AppBar() {
   const loginPrompt = useContext(LoginPromptContext);
 
   return (
-    <Appbar.Header>
+    <Appbar.Header elevated>
       <Appbar.Content title="Obrolan" />
       {user ? (
         <>

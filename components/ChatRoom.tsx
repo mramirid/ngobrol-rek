@@ -6,6 +6,7 @@ import {
   InputToolbarProps,
   User,
 } from "react-native-gifted-chat";
+import { useTheme } from "react-native-paper";
 
 import { db } from "@/constants/firebase";
 import useAuth from "@/hooks/use-auth";
@@ -28,6 +29,8 @@ export default function ChatRoom() {
     }
   };
 
+  const theme = useTheme();
+
   const sender: User | undefined = currentUser
     ? { _id: currentUser.uid, name: currentUser.uid }
     : undefined;
@@ -47,6 +50,11 @@ export default function ChatRoom() {
       user={sender}
       renderInputToolbar={renderInputToolbar}
       placeholder="Tulis pesan anda ..."
+      listViewProps={{
+        style: {
+          backgroundColor: theme.colors.background,
+        },
+      }}
     />
   );
 }
