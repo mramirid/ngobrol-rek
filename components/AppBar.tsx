@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Appbar, Tooltip } from "react-native-paper";
+import { Appbar } from "react-native-paper";
 
 import useAuth from "@/hooks/use-auth";
 import LoginPromptContext from "./login-prompt/LoginPromptContext";
@@ -16,9 +16,7 @@ export default function AppBar() {
       <Appbar.Content title="Obrolan" />
       {user ? (
         <>
-          <Tooltip title={userUid!}>
-            <UserAvatar userUid={userUid!} />
-          </Tooltip>
+          <UserAvatar userUid={userUid!} />
           <Appbar.Action icon="logout" onPress={logout} />
         </>
       ) : (
