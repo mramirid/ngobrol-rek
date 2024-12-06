@@ -1,13 +1,13 @@
 import { useHeaderHeight } from "@react-navigation/elements";
 import { ReactNode } from "react";
-import { KeyboardAvoidingView, Platform, StatusBar } from "react-native";
+import { KeyboardAvoidingView, StatusBar } from "react-native";
 
 export default function KeyboardAvoider(props: { children: ReactNode }) {
   const headerHeight = useHeaderHeight();
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior="padding"
       style={{ flex: 1 }}
       keyboardVerticalOffset={headerHeight + StatusBar.currentHeight!}
     >
