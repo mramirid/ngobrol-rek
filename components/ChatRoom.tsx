@@ -17,11 +17,15 @@ export default function ChatRoom() {
   const messages = useMessages();
 
   const onSend = async ([message]: IMessage[]) => {
-    await addDoc(collection(db, "messages"), {
-      text: message.text,
-      createdAt: message.createdAt,
-      user: { _id: message.user._id },
-    });
+    try {
+      await addDoc(collection(db, "messages"), {
+        text: message.text,
+        createdAt: message.createdAt,
+        user: { _id: message.user._id },
+      });
+    } catch (_) {
+      alert("Gagal mengirim pesan anda");
+    }
   };
 
   const sender: User | undefined = currentUser
