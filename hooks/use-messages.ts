@@ -10,6 +10,20 @@ import { GiftedChat, IMessage } from "react-native-gifted-chat";
 
 import { db } from "@/constants/firebase";
 
+export default function useMessages() {
+  const messages = useSyncExternalStore(subscribeMessages, getMessages);
+
+  const append = async (message: IMessage) => {
+    await addDoc(collection(db, "messages"), {
+      text: message.text,
+      createdAt: message.createdAt,
+      user: { _id: message.user._id },
+    });
+  };
+
+  return [messages, append] as const;
+}
+
 let messages: IMessage[] = [];
 
 function subscribeMessages(notifyNewMessages: () => void) {
@@ -45,18 +59,4 @@ function subscribeMessages(notifyNewMessages: () => void) {
 
 function getMessages() {
   return messages;
-}
-
-export default function useMessages() {
-  const messages = useSyncExternalStore(subscribeMessages, getMessages);
-
-  const append = async (message: IMessage) => {
-    await addDoc(collection(db, "messages"), {
-      text: message.text,
-      createdAt: message.createdAt,
-      user: { _id: message.user._id },
-    });
-  };
-
-  return [messages, append] as const;
 }
