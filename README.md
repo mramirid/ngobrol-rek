@@ -2,6 +2,10 @@
 
 A chatting app that runs on browser and Android.
 
+## Architecture
+
+<img src="https://github.com/user-attachments/assets/65fe6814-f633-4b7a-ae2c-f27d016bb112" width="400">
+
 ## Get started
 
 1. Install dependencies
