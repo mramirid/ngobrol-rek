@@ -4,7 +4,7 @@ A chatting app that runs on browser and Android.
 
 ## Preview
 
-<img src="https://github.com/user-attachments/assets/180fd910-0390-4d38-b4f0-3b15135c06d3" width="800">
+<img src="https://github.com/user-attachments/assets/180fd910-0390-4d38-b4f0-3b15135c06d3" width="600">
 
 ## Architecture
 
