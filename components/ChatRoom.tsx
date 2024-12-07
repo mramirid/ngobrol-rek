@@ -1,4 +1,3 @@
-import { addDoc, collection } from "firebase/firestore";
 import { useContext } from "react";
 import {
   Avatar,
@@ -11,7 +10,6 @@ import {
 } from "react-native-gifted-chat";
 import { useTheme } from "react-native-paper";
 
-import { db } from "@/constants/firebase";
 import useAuth from "@/hooks/use-auth";
 import useMessages from "@/hooks/use-messages";
 import DialogContext from "./dialog/DialogContext";
@@ -21,19 +19,15 @@ export default function ChatRoom() {
 
   const dialog = useContext(DialogContext);
 
+  const [messages, appendMessage] = useMessages();
+
   const onSend = async ([message]: IMessage[]) => {
     try {
-      await addDoc(collection(db, "messages"), {
-        text: message.text,
-        createdAt: message.createdAt,
-        user: { _id: message.user._id },
-      });
+      await appendMessage(message);
     } catch (_) {
       dialog?.show("Error", "Gagal mengirim pesan anda");
     }
   };
-
-  const messages = useMessages();
 
   const theme = useTheme();
 

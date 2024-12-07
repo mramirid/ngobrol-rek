@@ -1,4 +1,10 @@
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { useSyncExternalStore } from "react";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
 
@@ -43,5 +49,14 @@ function getMessages() {
 
 export default function useMessages() {
   const messages = useSyncExternalStore(subscribeMessages, getMessages);
-  return messages;
+
+  const append = async (message: IMessage) => {
+    await addDoc(collection(db, "messages"), {
+      text: message.text,
+      createdAt: message.createdAt,
+      user: { _id: message.user._id },
+    });
+  };
+
+  return [messages, append] as const;
 }
