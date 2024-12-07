@@ -2,6 +2,10 @@
 
 A chatting app that runs on browser and Android.
 
+## Preview
+
+<img src="https://github.com/user-attachments/assets/180fd910-0390-4d38-b4f0-3b15135c06d3" width="800">
+
 ## Architecture
 
 <img src="https://github.com/user-attachments/assets/65fe6814-f633-4b7a-ae2c-f27d016bb112" width="400">
