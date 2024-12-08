@@ -8,7 +8,7 @@ A chatting app that runs on browser and Android.
 
 ## Architecture
 
-<img src="https://github.com/user-attachments/assets/65fe6814-f633-4b7a-ae2c-f27d016bb112" width="400">
+<img src="https://github.com/user-attachments/assets/0cee1ae4-a2bd-431d-88e5-ae2b461265b2" width="400">
 
 ## Get started
 
