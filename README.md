@@ -12,13 +12,21 @@ A chatting app that runs on browser and Android.
 
 ## Get started
 
-1. Install dependencies
+1. Configure your [Firebase Authentication](https://firebase.google.com/docs/auth)
+
+   Enable the [Anonymous sign-in method](https://firebase.google.com/docs/auth/web/anonymous-auth)
+
+2. Create your [Firestore](https://firebase.google.com/docs/firestore) database
+
+3. Fill `.env` with your app's [Firebase project configuration](https://firebase.google.com/docs/web/learn-more?authuser=0#config-object)
+
+4. Install dependencies
 
    ```bash
    npm ci
    ```
 
-2. Start the app
+5. Start the app
 
    ```bash
     npx expo start
