@@ -32,6 +32,7 @@ function subscribeMessages(notifyNewMessages: () => void) {
     (snapshot) => {
       const incomingMessags = snapshot
         .docChanges()
+        .filter((docChange) => docChange.type === "added")
         .map<IMessage>((docChange) => {
           const docId = docChange.doc.id;
           const docData = docChange.doc.data();
