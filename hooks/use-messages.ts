@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  limit,
   onSnapshot,
   orderBy,
   query,
@@ -26,9 +27,15 @@ export default function useMessages() {
 
 let messages: IMessage[] = [];
 
+const MAX_LOADED_MESSAGES = 100;
+
 function subscribeMessages(notifyNewMessages: () => void) {
   const unsubscribe = onSnapshot(
-    query(collection(db, "messages"), orderBy("createdAt", "desc")),
+    query(
+      collection(db, "messages"),
+      orderBy("createdAt", "desc"),
+      limit(MAX_LOADED_MESSAGES)
+    ),
     (snapshot) => {
       const incomingMessags = snapshot
         .docChanges()
@@ -46,7 +53,10 @@ function subscribeMessages(notifyNewMessages: () => void) {
             },
           };
         });
-      messages = GiftedChat.append(messages, incomingMessags);
+      messages = GiftedChat.append(messages, incomingMessags).slice(
+        0,
+        MAX_LOADED_MESSAGES
+      );
       notifyNewMessages();
     }
   );
