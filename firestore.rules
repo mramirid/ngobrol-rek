@@ -20,7 +20,7 @@ service cloud.firestore {
       return request.time < timestamp.date(2025, 1, 25);
     }
     
-    match /{document=**} {
+    match /messages/{id} {
       allow list: if isProjectActive();
       allow create: if isSignedIn() && isProjectActive();
     }
