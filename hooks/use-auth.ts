@@ -1,4 +1,4 @@
-import { onAuthStateChanged, signOut, User } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { useSyncExternalStore } from "react";
 
 import { auth } from "@/constants/firebase";
@@ -13,7 +13,8 @@ export default function useAuth() {
   };
 
   const logout = async () => {
-    await signOut(auth);
+    // TODO: sign out from firebase auth
+    throw new UnimplementedError("Logout is unimplemented");
   };
 
   return { user, login, logout };
