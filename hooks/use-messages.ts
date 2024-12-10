@@ -10,16 +10,14 @@ import { useSyncExternalStore } from "react";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
 
 import { db } from "@/constants/firebase";
+import UnimplementedError from "@/errors/unimplemented.error";
 
 export default function useMessages() {
   const messages = useSyncExternalStore(subscribeMessages, getMessages);
 
-  const append = async (message: IMessage) => {
-    await addDoc(collection(db, "messages"), {
-      text: message.text,
-      createdAt: message.createdAt,
-      user: { _id: message.user._id },
-    });
+  const append = async (_message: IMessage) => {
+    // TODO: add new doc to collection "messages"
+    throw new UnimplementedError("Appending message is unimplemented");
   };
 
   return [messages, append] as const;
