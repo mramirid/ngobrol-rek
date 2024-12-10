@@ -21,7 +21,7 @@ service cloud.firestore {
     }
     
     match /{document=**} {
-      allow read: if isProjectActive();
+      allow list: if isProjectActive();
       allow create: if isSignedIn() && isProjectActive();
     }
   }
