@@ -1,18 +1,15 @@
-import {
-  onAuthStateChanged,
-  signInAnonymously,
-  signOut,
-  User,
-} from "firebase/auth";
+import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { useSyncExternalStore } from "react";
 
 import { auth } from "@/constants/firebase";
+import UnimplementedError from "@/errors/unimplemented.error";
 
 export default function useAuth() {
   const user = useSyncExternalStore(subscribeAuthState, getCurrentUser);
 
   const login = async () => {
-    await signInAnonymously(auth);
+    // TODO: sign in anonymously to firebase auth
+    throw new UnimplementedError("Login is unimplemented");
   };
 
   const logout = async () => {

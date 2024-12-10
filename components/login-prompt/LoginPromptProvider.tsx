@@ -29,6 +29,7 @@ export default function LoginPromptProvider(props: { children: ReactNode }) {
       await auth.login();
     } catch (error) {
       dialog?.show("Error", "Maaf, gagal menggabungkan anda ke dalam obrolan.");
+      console.error(error);
     }
 
     setIsLoggingIn(false);
